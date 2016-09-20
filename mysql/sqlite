@@ -1,0 +1,132 @@
+
+
+.backup
+
+将数据库文件备份到指定文件中，默认（在不指定数据库名时）会备份main数据库
+例如：.backup main(文件名) 根目录
+
+.databases
+
+列出（当前数据库文件中）附加的所有数据的文字和文件
+
+.dump
+
+将数据库打印为sql文本格式，如果指定table，就只打印出名字中包含了table 的数据表
+
+例 .dump table(table名)
+
+.echo on|off
+
+在显示的结果前是否显示输入的命令
+
+例 .echo on
+
+.explain on|off
+
+开启或关闭适合于的输出模式，在不指定on或off时，默认为on
+
+例：explain select * from user
+.explain on 
+
+explain select * from user
+
+.genfkey  options
+
+options有如下几个值；
+no- drop;不删除旧的外键触发器
+ignore-error 忽略表的外键错误
+-exec 立即执行生成的sql语句
+
+.headers on|off
+
+是否显示表头
+
+.mode 
+
+设置输出模式，指定时，就是该输出模式只应该在该表的输出上，
+
+例如 .mode csv
+ .mode column
+
+.import 
+
+读取文件中的数据插入到指定表中
+
+例如：.import 文件目录 table名
+
+.indices
+
+显示指定表的所有索引，表没有指定时，显示所有索引
+
+.load file entry
+
+加载一个外部库文件
+
+.log FILE|off
+
+开启或关闭日志功能
+关闭：.log off 
+开启，并将日志输出到标准输出流：.log stdout
+开启，并将日志输出到标准错误流：.log stderr
+开启，并将日志输出到指定文件：.log 文件名
+
+.nullvalue STRING
+ 值为ＮＵＬＬ时，显示的字符串，默认为“　”
+
+.output FILENAME
+
+将所有输出都输出到指定文件
+
+.output stdout
+将所有的输出都输出到表准输出流
+
+.prompt MAIN CONTINUE
+
+替换标准的指示，
+
+.read FILENAME
+
+执行指定文件的sql语句
+
+.restore XX  FILE
+
+从备份文件中还原数据库，默认是还原main数据库
+
+例如：.restore main 文件
+
+.schema 
+
+显示指定表的创建语句，表未指定时，显示所有表的创建语句
+
+例如　.schema user
+
+.separator STRING
+
+设置输出模式.mode和导入数据.import的分隔符
+
+例如；.separator #
+
+.show 
+
+显示当前的设置
+
+.table 
+
+列出所有表名
+
+.timeout MS
+
+只在指定的毫秒内尝试打开锁定的表，二不是一直尝试打开，
+
+.width NUM NUM ...
+
+设置.mode column 中每个列的宽度，每个列默认的宽度是１０个字符，过长会被截断，
+
+例如　.width 1 0
+
+.timer ON |OFF
+
+是否开启cpu耗电量，
+
+例如:.timer on
+

@@ -1,0 +1,138 @@
+QLite，是一款轻型的数据库，是遵守ACID的关系型数据库管理系统，它包含在一个相对小的C库中。它的设计目标是嵌入式的，而且目前已经在很多嵌入式产品中使用了它，它占用资源非常的低，在嵌入式设备中，可能只需要几百K的内存就够了。它能够支持Windows/Linux/Unix等等主流的操作系统，同时能够跟很多程序语言相结合，比如 Tcl、C#、PHP、Java等，还有ODBC接口，同样比起Mysql、PostgreSQL这两款开源的世界著名数据库管理系统来讲，它的处理速度比他们都快。
+工作原理
+不像常见的客户-服务器范例，SQLite引擎不是个程序与之通信的独立进程，而是连接到程序中成为它的一个主要部分。所以主要的通信协议是在编程语言内的直接API调用。这在消耗总量、延迟时间和整体简单性上有积极的作用。整个数据库(定义、表、索引和数据本身)都在宿主主机上存储在一个单一的文件中。它的简单的设计是通过在开始一个事务的时候锁定整个数据文件而完成的。
+
+功能特性
+1. ACID事务[1] 
+2. 零配置 – 无需安装和管理配置
+3.储存在单一磁盘文件中的一个完整的数据库
+4.数据库文件可以在不同字节顺序的机器间自由的共享
+5.支持数据库大小至2TB
+6. 足够小, 大致13万行C代码, 4.43M
+7. 比一些流行的数据库在大部分普通数据库操作要快
+8. 简单, 轻松的API
+9. 包含TCL绑定, 同时通过Wrapper支持其他语言的绑定
+10. 良好注释的源代码, 并且有着90%以上的测试覆盖率
+11. 独立: 没有额外依赖
+12. 源码完全的开源, 你可以用于任何用途, 包括出售它
+13. 支持多种开发语言，C, C++, PHP, Perl, Java, C#,Python, Ruby等
+
+数据类型
+编辑
+SQLite的数据类型
+首先你会接触到一个让你惊讶的名词: Typelessness(无类型). 对! SQLite是无类型的. 这意味着你可以保存任何类型的数据到你所想要保存的任何表的任何列中, 无论这列声明的数据类型是什么(只有在一种情况下不是, 稍后解释). 对于SQLite来说对字段不指定类型是完全有效的. 如:
+Create Table ex1(a, b, c);
+诚然SQLite允许忽略数据类型, 但是仍然建议在你的Create Table语句中指定数据类型. 因为数据类型对于你和其他的程序员交流, 或者你准备换掉你的数据库引擎时能起到一个提示或帮助的作用. SQLite支持常见的数据类型, 如:
+CREATE TABLE ex2
+a VARCHAR(10),
+b NVARCHAR(15),
+c TEXT,
+d INTEGER,
+e FLOAT,
+f BOOLEAN,
+g CLOB,
+h BLOB,
+i TIMESTAMP,
+j NUMERIC(10,5)
+k VARYING CHARACTER (24),
+l NATIONAL VARYING CHARACTER(16)
+前面提到在某种情况下, SQLite的字段并不是无类型的. 即在字段类型为”Integer Primary Key”时
+
+使用linux下的C操作SQLLITE
+由于linux下侧重使用命令，没有win的操作容易上手，所以在测试C操作SQLITE时会比较容易出现错误，给大家做一个简单的程序进行测试，演示怎么应用。
+#include <stdio.h>
+#include <sqlite3.h>
+int main( void )
+{
+sqlite3 *db=NULL;
+char *zErrMsg = 0;
+int rc;
+//打开指定的数据库文件,如果不存在将创建一个同名的数据库文件
+rc = sqlite3_open("zieckey.db", &db);
+if( rc )
+{
+fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+sqlite3_close(db);
+exit(1);
+}
+else printf("You have opened a sqlite3 database named zieckey.db successfully!\nCongratulations! Have fun ! ^-^ \n");
+sqlite3_close(db); //关闭数据库
+return 0;
+}
+退出，保存。(代码输入完成后，按下 Esc 键，然后输入： :wq ,回车就好拉)
+
+SQLite 常用函数
+编辑
+SQLite 有许多内置函数用于处理字符串或数字数据。下面列出了一些有用的 SQLite 内置函数，且所有函数都是大小写不敏感，这意味着您可以使用这些函数的小写形式或大写形式或混合形式。欲了解更多详情，请查看 SQLite 的官方文档：
+序号 函数 & 描述
+1 SQLite COUNT 函数　SQLite COUNT 聚集函数是用来计算一个数据库表中的行数。
+2 SQLite MAX 函数　SQLite MAX 聚合函数允许我们选择某列的最大值。
+3 SQLite MIN 函数　SQLite MIN 聚合函数允许我们选择某列的最小值。
+4 SQLite AVG 函数　SQLite AVG 聚合函数计算某列的平均值。
+5 SQLite SUM 函数　SQLite SUM 聚合函数允许为一个数值列计算总和。
+6 SQLite RANDOM 函数　SQLite RANDOM 函数返回一个介于 -9223372036854775808 和 +9223372036854775807 之间的伪随机整数。
+7 SQLite ABS 函数　SQLite ABS 函数返回数值参数的绝对值。
+8 SQLite UPPER 函数　SQLite UPPER 函数把字符串转换为大写字母。
+9 SQLite LOWER 函数　SQLite LOWER 函数把字符串转换为小写字母。
+10 SQLite LENGTH 函数　SQLite LENGTH 函数返回字符串的长度。
+11 SQLite sqlite_version 函数　SQLite sqlite_version 函数返回 SQLite 库的版本。
+
+.mode column 将设置为列显示模式，.header 将显示列名。
+
+修改表结构，增加列：
+
+    sqlite> alter table mytable add column email text not null '' collate nocase;; 
+
+创建视图：
+
+    sqlite> create view nameview as select * from mytable; 
+
+创建索引：
+
+    sqlite> create index test_idx on mytable(value); 
+
+4. 一些有用的 SQLite 命令
+
+显示表结构：
+
+    sqlite> .schema [table] 
+
+获取所有表和视图：
+
+    sqlite > .tables 
+
+获取指定表的索引列表：
+
+    sqlite > .indices [table ] 
+
+导出数据库到 SQL 文件：
+
+    sqlite > .output [filename ]  
+    sqlite > .dump  
+    sqlite > .output stdout 
+
+从 SQL 文件导入数据库：
+
+    sqlite > .read [filename ] 
+
+格式化输出数据到 CSV 格式：
+
+    sqlite >.output [filename.csv ]  
+    sqlite >.separator ,  
+    sqlite > select * from test;  
+    sqlite >.output stdout 
+
+从 CSV 文件导入数据到表中：
+
+    sqlite >create table newtable ( id integer primary key, value text );  
+    sqlite >.import [filename.csv ] newtable 
+
+备份数据库：
+
+    /* usage: sqlite3 [database] .dump > [filename] */  
+    sqlite3 mytable.db .dump > backup.sql 
+
+恢复数据库：
+
+    /* usage: sqlite3 [database ] < [filename ] */  
+    sqlite3 mytable.db < backup.sql 
