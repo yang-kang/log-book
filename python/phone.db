@@ -1,0 +1,139 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+import re
+root=raw_input("是否进入管理权限：1.是，2.否")
+if root=="1":
+	f1=open("data3","r")
+	s2=f1.read()
+	s3=re.split(' ',s2)
+	f1.close()
+	print s3[0]
+	code=raw_input("请输入密码：")
+	if code==s3[0]:
+		f=open("data1","w")
+		str0 = raw_input("请输入用户名：")
+		f.write(str0)
+		f.write(" ")
+
+		str1= raw_input("请输入用户密码：")
+		f.write(str1)
+		f.write(" ")
+	
+		str2= raw_input("请输入数据库名：")
+		f.write(str2)
+		f.write(" ")
+
+		str3= raw_input("请输入数据库表名：")
+		f.write(str3)
+		f.write(" ")
+
+		f.close()
+
+		db=MySQLdb.connect("localhost",str0,str1,"mysql")
+
+		cursor = db.cursor()
+
+		#cursor.execute("drop database IF EXISTS "+str2)
+
+		cursor.execute("create database "+str2)
+
+		cursor.execute("use "+str2)
+
+		#cursor.execute("drop table IF EXISTS "+str3)
+
+		sql="create table "+str3+"(id integer not null auto_increment,name varchar(15),relation varchar(20),tel varchar(15),count integer,PRIMARY KEY(`id`))"
+
+		cursor.execute(sql)
+		db.commit()
+if root=="2":
+
+	f=open("data2","r")
+	s=f.read()
+	s1=re.split(' ',s)
+	f.close()
+
+	db=MySQLdb.connect("localhost",s1[0],s1[1],s1[2])
+
+	cursor=db.cursor()
+	sql="select * from "+s1[3]+" order by count desc limit 3;"
+	sql1="select count(*) from "+s1[3]
+	cursor.execute(sql)
+	results=cursor.fetchall()
+	for row in results:
+		fname=row[1]
+   		frelation=row[2]
+ 		ftel=row[3]
+     		print "name=%s,relation=%s,tel=%s," % (fname,frelation,ftel)
+	cursor.execute(sql1)
+	q=cursor.fetchone()
+	db.commit()
+	print "通讯记录：%s" % (q)
+	while (1):
+		m=raw_input( "请用户选择：0.退出，1.添加，2.修改，3.删除,4.查询：")
+		if m=="0":
+			break
+		if m=="1":
+			name=raw_input("请输入姓名：")
+			sex=raw_input("请输入性别：")
+			relation=raw_input("请输入关系：")
+			tel = raw_input("请输入电话：")
+			sql="insert into "+s1[3]+"(name,relation,tel,count) values('"+name+"','"+relation+"','"+tel+"',0);"
+			cursor.execute(sql)
+			db.commit()
+		if m=="2":
+			tem=raw_input("修改姓名（1），电话（2）：")
+			up_name1=raw_input("请输入要改的内容：")
+			up_name2=raw_input("请输入要改得地方：")
+			if tem=="1":
+				sql="update "+s1[3]+" set name='"+up_name1+"' where name='"+up_name2+"'"
+				cursor.execute(sql)
+				db.commit()
+			if tem=="2":
+				sql="update "+s1[3]+" set tel='"+up_name1+"' where tel='"+up_name2+"'"
+                        	cursor.execute(sql)
+                        	db.commit()
+		if m=="3":
+			t=raw_input("要删除的姓名（1），电话（2）")
+			de_name=raw_input("请输入要删除的姓名或电话：")
+			if t=="1":
+				sql="delete from "+s1[3]+" where name like '%"+de_name+"%'"
+				cursor.execute(sql)
+				db.commit()
+			if t=="2":
+                        	sql="delete from "+s1[3]+" where tel like '%"+de_name+"%'"
+                        	cursor.execute(sql)
+                        	db.commit()
+		if m=="4":
+			tmp=raw_input("查询的姓名（1），电话（2）：")
+			n=raw_input("请输入要查询的姓名或电话：")
+			if tmp=="1":
+				sql="select * from "+s1[3]+" where name like '%"+n+"%'"
+				cursor.execute(sql)
+				results=cursor.fetchall()
+				db.commit()
+				for row in results:
+        	                	fname=row[1]
+                	        	frelation=row[2]
+                        		ftel=row[3]
+                        		print "name=%s,relation=%s,tel=%s" % (fname,frelation,ftel)
+
+				sql="update "+s1[3]+" set count=count+1 where name like '%"+n+"%'"
+                		cursor.execute(sql)
+                		db.commit()
+			if tmp=="2":
+                        	sql="select * from "+s1[3]+" where tel like '%"+n+"%'"
+                        	cursor.execute(sql)
+                        	results=cursor.fetchall()
+                        	db.commit()
+				for row in results:
+					fname=row[1]
+					frelation=row[2]
+					ftel=row[3]
+					print "name=%s,relation=%s,tel=%s" % (fname,frelation,ftel)
+				sql="update "+s1[3]+" set count=count+1 where tel like '%"+n+"%'"
+				cursor.execute(sql)
+				db.commit()
+db.close()

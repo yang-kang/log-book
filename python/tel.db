@@ -1,0 +1,21 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+
+#import MySQLdb
+f=open("data2","r")
+i=0
+a=""
+b=""
+while (1):
+	ch=f.read(1)
+	if (ch!=' '):
+		a=a+ch
+	if ((ch==' ')or(ch=='\n')):
+		b="'"+a+"',"+b
+		a=""
+	if ch=='\n':
+		break
+c=(b)
+print c[1]
+f.close()

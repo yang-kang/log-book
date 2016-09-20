@@ -1,0 +1,43 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+f=open("data1","w")
+str0 = raw_input("请输入用户名：")
+f.write(str0)
+f.write("\n")
+
+str1= raw_input("请输入用户密码：")
+f.write(str1)
+f.write("\n")
+
+str2= raw_input("请输入数据库名：")
+f.write(str2)
+f.write("\n")
+
+str3= raw_input("请输入数据库表名：")
+f.write(str3)
+f.write("\n")
+
+f.close()
+
+import MySQLdb
+
+db=MySQLdb.connect("localhost",str0,str1,"mysql")
+
+cursor = db.cursor()
+
+#cursor.execute("drop database IF EXISTS "+str2)
+
+cursor.execute("create database "+str2)
+
+cursor.execute("use "+str2)
+
+#cursor.execute("drop table IF EXISTS "+str3)
+
+sql="create table "+str3+"(id integer not null auto_increment,name varchar(15),relation varchar(20),tel varchar(15),count integer,PRIMARY KEY(`id`))"
+
+cursor.execute(sql)
+db.commit()
+
+db.close()
+

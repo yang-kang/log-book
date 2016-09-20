@@ -1,0 +1,28 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb	#选择数据库模块
+
+# 打开数据库连接 connect()创建与指定外端口的连接
+db = MySQLdb.connect("localhost","root","yk","shop" )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+a=raw_input("shuru:")
+# 使用execute方法执行SQL语句
+cursor.execute(("DROP TABLE IF EXISTS %s")% (a))
+
+# 创建数据库SQL语句。
+sql = """CREATE TABLE MY_(
+         FIRST_NAME  VARCHAR(20) NOT NULL,
+         LAST_NAME  VARCHAR(20),
+         AGE INTEGER,  
+         SEX varCHAR(5),
+         INCOME FLOAT )"""
+
+#执行SQL语句
+cursor.execute(sql)
+
+# 关闭数据库连接
+db.close()
