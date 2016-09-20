@@ -1,0 +1,65 @@
+1.
+头文件：include<linux/cdev.h>
+函数名称：cdev_add
+功能：将cdev模块添加到系统中
+使用方法：int cdev_add(struct cdev *cdev,dev_id devno,unsigned int count)
+参数解释：
+	cdev: 要加载的模块结构体
+	devno：设备号
+	count: 一次加载的设备号
+返回值：函数运行结果，0为正常，非零为错误
+2.
+头文件：include<linux/fs.h>
+函数名称：alloc_chrdev_region
+功能：申请设备号
+使用方法：int alloc_chrdev_eggion(dev_t *dev,unsigned int -firstminor,unsigned int -count,char *name)
+参数解释：
+	dev:调用该函数后自动分配保存在dev中
+	firstminor:次设备号（一般为0）
+	count：要分配的设备数
+	name：设备名
+返回值：返回整型
+3.
+头文件：#include<linux/string.h>
+函数名称：memset
+功能：为内存中赋值
+使用方法;void *memset(void *s,int ch,size_t n)
+参数解释：
+	s:开始内存的地址
+	ch和n;从地址s开始，在之后的n字节长度，把没个字节的值赋予为n
+返回值：空返回
+4.
+头文件：#include<linux/cdev.h>
+函数名称：cdev_init
+功能：初始化静态内存
+使用方法：void cdev_init(struct cdev *cdev,const struct file_operations *fops)
+参数解释:
+	指向处理和设备实际通信的函数
+返回值:
+5.
+头文件：#include<linux/fs.h>
+函数名称：unregister_chrdev_region
+功能：释放设备号
+使用方法：void unregister_chrdev_region(dev_t frist,unsigned int count)
+参数解释：
+	frist:为第一个设备号
+	count：申请的设备数量
+返回值：空返回
+6.
+头文件：#include<asm/uaccess.h>
+函数名称：copy_from_user
+功能:将用户空间的数据传送到内核空间
+使用方法：unsigned long copy_from_user(void *to,count void __user *from,unsigned long n)
+参数解释：
+	to:内核空间的数据目标地址指针
+	from：用户空间的数据源地址指针
+	n：数据长度
+返回值：如果拷贝成功，则返回0,否则，返回没拷贝成功的数据字节数
+7.
+头文件：#include<linux/fs.h>
+函数名称：container_of
+功能：根据一个结构体变量的一个成员变量的指针来获取整个结构体的变量的指针
+使用方法：#defile container_of(ptr,type,member)({const typeof(((type*)0)->member)*__mptr=(ptr);(type*)((char*)__mptr-offsetof(type,member));})
+参数解释：
+返回值：
+

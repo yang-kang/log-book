@@ -1,0 +1,1 @@
+cmd_/home/yk/linux/linux-2.6.32.61/drivers/yangsenhao/demo.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/yk/linux/linux-2.6.32.61/drivers/yangsenhao/demo.ko /home/yk/linux/linux-2.6.32.61/drivers/yangsenhao/demo.o /home/yk/linux/linux-2.6.32.61/drivers/yangsenhao/demo.mod.o

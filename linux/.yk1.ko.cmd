@@ -1,0 +1,1 @@
+cmd_/home/yk/linux/linux-2.6.32.61/drivers/yk/yk1.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/yk/linux/linux-2.6.32.61/drivers/yk/yk1.ko /home/yk/linux/linux-2.6.32.61/drivers/yk/yk1.o /home/yk/linux/linux-2.6.32.61/drivers/yk/yk1.mod.o
